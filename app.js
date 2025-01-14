@@ -1,4 +1,3 @@
-// Flower class (same as before)
 class Flower {
   constructor(x, y) {
     this.x = x;
