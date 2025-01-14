@@ -1,4 +1,4 @@
-// Flower class
+// Flower class (same as before)
 class Flower {
   constructor(x, y) {
     this.x = x;
@@ -9,7 +9,6 @@ class Flower {
   }
 
   randomFlowerColor() {
-    // Random color for the flower
     const colors = ["#FF6347", "#FFD700", "#FF69B4", "#87CEFA"]; // Red, Yellow, Pink, Light Blue
     return colors[Math.floor(Math.random() * colors.length)];
   }
@@ -21,7 +20,6 @@ class Flower {
   }
 
   draw() {
-    // Create a flower element
     const flowerElement = document.createElement("div");
     flowerElement.classList.add("flower");
     flowerElement.style.width = `${this.size}px`;
@@ -34,24 +32,37 @@ class Flower {
   }
 }
 
-// Main garden logic
+// Create growing emoji flower on click
+function createGrowingFlowerEmoji(x, y) {
+  const emojiFlower = document.createElement("div");
+  emojiFlower.classList.add("emoji-flower");
+  emojiFlower.textContent = "🌸"; // Flower emoji
+  emojiFlower.style.left = `${x - 25}px`; // Positioning the emoji at the click point
+  emojiFlower.style.top = `${y - 25}px`;
+
+  document.getElementById("emoji-flower-container").appendChild(emojiFlower);
+
+  // After animation completes, we don't need to remove the emoji since it stays
+}
+
+// Flower planting logic (same as before)
 const flowerContainer = document.getElementById("flower-container");
 const flowers = [];
 
 function plantFlower(event) {
-  // Get position of the mouse click
   const x = event.clientX - flowerContainer.offsetLeft;
   const y = event.clientY - flowerContainer.offsetTop;
 
-  // Create a new flower at the clicked position
   const flower = new Flower(x, y);
   flowers.push(flower);
 
-  // Draw the flower immediately
   flowerContainer.appendChild(flower.draw());
+
+  // Create a growing emoji flower at the clicked position
+  createGrowingFlowerEmoji(event.clientX, event.clientY);
 }
 
-// Update flowers (let them grow over time)
+// Update flowers' growth
 function updateFlowers() {
   flowers.forEach((flower) => {
     flower.grow();
@@ -67,8 +78,10 @@ function updateFlowers() {
   });
 }
 
-// Add event listener to plant flowers on click
+// Event listener for planting flowers
 flowerContainer.addEventListener("click", plantFlower);
 
-// Update flower growth every 50ms
-setInterval(updateFlowers, 50);
+// Game update loop
+setInterval(() => {
+  updateFlowers();
+}, 50);
